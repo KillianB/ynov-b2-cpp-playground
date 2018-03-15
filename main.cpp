@@ -3,8 +3,8 @@
 #include <sstream>
 #include <fstream>
 #include <conio.h>
+#include <ctime>
 #include "Entitee/Anime.h"
-#include "lib/sqlite3.h"
 #include "database/DBManager.h"
 
 using namespace std;
@@ -19,6 +19,7 @@ void updateAnime();
 void deleteAnime();
 void updateList();
 bool update(string field, Anime anime, string toReplace, string type);
+void writeLog(string message);
 
 int main(int argc, char *argv[]) {
     updateList();
@@ -45,23 +46,6 @@ int main(int argc, char *argv[]) {
         }
     } while (input != 5);
 
-    /**/
-    /*ofstream file(R"(../test.txt)", ios::app);
-    ifstream file2(R"(../test.txt)");
-    string line;
-
-    for (const auto &i : animeList) {
-        file << to_string(i);
-    }
-    
-    while(getline(file2,line))
-    {
-        cout << line << endl;
-    }
-
-    file.close();
-    file2.close();*/
-
     return 0;
 }
 
@@ -78,17 +62,17 @@ void addAnime() {
     string name, startingDate, endingDate;
     int rating, episodeCompleted, nbrEpisodes;
 
-    cout << "Entrez un nom :" << endl;
+    cout << "Entrez un nom :" << endl << "> ";
     cin >> name;
-    cout << "Entrez une note :" << endl;
+    cout << "Entrez une note :" << endl << "> ";
     cin >> rating;
-    cout << "Entrez une date de debut (DD/MM/YYYY) :" << endl;
+    cout << "Entrez une date de debut (DD/MM/YYYY) :" << endl << "> ";
     cin >> startingDate;
-    cout << "Entrez une date de fin (DD/MM/YYYY) :" << endl;
+    cout << "Entrez une date de fin (DD/MM/YYYY) :" << endl << "> ";
     cin >> endingDate;
-    cout << "Entrez le nombre d'episodes que vous avez vu :" << endl;
+    cout << "Entrez le nombre d'episodes que vous avez vu :" << endl << "> ";
     cin >> episodeCompleted;
-    cout << "Entrez le nombre d'episodes total :" << endl;
+    cout << "Entrez le nombre d'episodes total :" << endl << "> ";
     cin >> nbrEpisodes;
 
     string completion;
@@ -107,6 +91,7 @@ void addAnime() {
     auto *finalquery = const_cast<char *>(query.c_str());
     vector<vector<string>> result = DBManager.query(finalquery);
 
+    writeLog("Un anime a été ajouté à la base de donnée");
     printf("\n %s", "Press any key to quit...");
     updateList();
     getch();
@@ -185,6 +170,7 @@ void updateAnime() {
         }
     } while (choice != 8 && callback == false);
 
+    writeLog("Un anime a été modifié");
     updateList();
     printf("\n %s", "Press any key to quit...");
     getch();
@@ -196,12 +182,13 @@ void deleteAnime() {
     for (Anime anime : animeList) {
         anime.describe();
     }
+    cout << "> ";
     cin >> choice;
     Anime theAnime = animeList.at(choice-1);
     theAnime.describe();
     cout << endl << "Voulez-vous vraiment supprimer cet anime ?" << endl
          << "1- Oui" << endl
-         << "2- Non" << endl;
+         << "2- Non" << endl << "> ";
     cin >> choice2;
     do {
         if (choice2 == 1) {
@@ -213,6 +200,7 @@ void deleteAnime() {
             break;
         }
     } while (choice2 != 2);
+    writeLog("Un anime a été supprimé de la base de donnée");
     printf("\n %s", "Press any key to quit...");
     getch();
 }
@@ -227,6 +215,7 @@ void updateList() {
         animeList.push_back(anime);
         iterator++;
     }
+    writeLog("La liste d'anime a été mise à jour");
 }
 
 bool update(string field, Anime anime, string toReplace, string type) {
@@ -241,3 +230,10 @@ bool update(string field, Anime anime, string toReplace, string type) {
     return true;
 }
 
+void writeLog(string message) {
+    time_t now = time(0);
+    char* dt = ctime(&now);
+    ofstream file(R"(../log.txt)", ios::ate);
+    file << dt << " - " << message << endl;
+    file.close();
+}

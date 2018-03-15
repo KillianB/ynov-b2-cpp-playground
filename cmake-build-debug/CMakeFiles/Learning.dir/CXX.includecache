@@ -49,10 +49,10 @@ fstream
 -
 conio.h
 -
+ctime
+-
 Entitee/Anime.h
 C:/Users/Restauration/CLionProjects/Learning/Entitee/Anime.h
-lib/sqlite3.h
-C:/Users/Restauration/CLionProjects/Learning/lib/sqlite3.h
 database/DBManager.h
 C:/Users/Restauration/CLionProjects/Learning/database/DBManager.h
 

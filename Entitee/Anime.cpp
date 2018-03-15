@@ -6,7 +6,7 @@
 #include <iostream>
 
 Anime::Anime(int id, const string &nameRomanji, int rating, const string &startingDate,
-             const string &endingDate, int nbrEpisodes, int episodesCompleted, const string &status) : nameRomanji(
+             const string &endingDate, int nbrEpisodes, int episodesCompleted, const string &status) : id(id), nameRomanji(
         nameRomanji), rating(rating), startingDate(startingDate), endingDate(endingDate),
                                                                                                        nbrEpisodes(
                                                                                                                nbrEpisodes),
@@ -77,15 +77,13 @@ void Anime::setStatus(const string &status) {
 }
 
 void Anime::describe() {
-    cout << "Anime : "
+    cout << getId() << "- " << "Anime : "
          << getNameRomanji() << ". De : "
-         << getStartingDate() << " à "
+         << getStartingDate() << " a "
          << getEndingDate() << ". Note : "
-         << getRating() << ". "
-         << endl << "Status : "
+         << getRating() << ". Status : "
          << getStatus() << ". Episodes : "
-         << getEpisodesCompleted()
-         << "/"
+         << getEpisodesCompleted() << "/"
          << getNbrEpisodes() << "." << endl;
 }
 
@@ -95,17 +93,6 @@ int Anime::getId() const {
 
 void Anime::setId(int id) {
     Anime::id = id;
-}
-
-ostream &operator<<(ostream &os, const Anime &anime) {
-    os << "Anime;" << anime.nameRomanji << ";"
-       << anime.startingDate << ";"
-       << anime.endingDate << ";"
-       << anime.rating << ";"
-       << anime.status << ";"
-       << anime.episodesCompleted << ";"
-       << anime.nbrEpisodes << ";" << endl;
-    return os;
 }
 
 

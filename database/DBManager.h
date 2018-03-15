@@ -9,8 +9,7 @@
 #include "../Entitee/Anime.h"
 #include "../lib/sqlite3.h"
 
-class DBManager
-{
+class DBManager {
 public:
     DBManager();
     virtual ~DBManager();

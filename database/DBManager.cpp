@@ -8,7 +8,6 @@
 DBManager::DBManager()
 {
     database = nullptr;
-    open(const_cast<char *>("MyAnimeList.db"));
 }
 
 DBManager::~DBManager()
@@ -23,6 +22,7 @@ bool DBManager::open(char* filename)
 
 vector<vector<string> > DBManager::query(char* query)
 {
+    open(const_cast<char *>("MyAnimeList.db"));
     sqlite3_stmt *statement;
     vector<vector<string> > results;
 

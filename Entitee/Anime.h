@@ -29,8 +29,6 @@ class Anime {
 
     void describe();
 
-    friend ostream &operator<<(ostream &os, const Anime &anime);
-
     virtual ~Anime();
 
     const string &getNameRomanji() const;
